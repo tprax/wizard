@@ -10,6 +10,7 @@ import {
 } from 'semantic-ui-react'
 import { connect } from 'react-redux'
 import Dropzone from 'react-dropzone'
+import {updateUser} from '../reducers/user'
 
 const defaultImage = 'https://d30y9cdsu7xlg0.cloudfront.net/png/15724-200.png'
 
@@ -40,6 +41,18 @@ class Profile extends React.Component {
 
   handleSubmit = (e) => {
     e.preventDefault()
+    const { formValues } = this.state
+    const { user, dispatch } = this.props
+    dispatch(updateUser(user.id, formValues))
+    this.setState( state => {
+      return {
+        editing: false,
+        formValues: {
+          ...state.formValues,
+          file: ''
+        }
+      }
+    })
   }
 
   handleChange = (e) => {
